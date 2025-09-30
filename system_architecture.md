@@ -5,7 +5,7 @@
 ```mermaid
 graph TB
     subgraph "Docker Network - telemetry-network"
-        subgraph "Backend Container [:8000]"
+        subgraph "Backend Container Port 8000"
             GEN[("📊 Metrics Generator<br/>Simulates 5 services")]
             PROC[["🔍 Processor<br/>• Anomaly Detection<br/>• Aggregation<br/>• Statistics"]]
             API{{"🚀 FastAPI Server<br/>• REST Endpoints<br/>• WebSocket Server"}}
@@ -13,7 +13,7 @@ graph TB
             MGR[["📡 Connection Manager<br/>WebSocket Handler"]]
         end
         
-        subgraph "Frontend Container [:3000]"
+        subgraph "Frontend Container Port 3000"
             VITE[["⚡ Vite Dev Server"]]
             REACT[["⚛️ React App"]]
             HOOK[["🔄 useMetrics Hook<br/>WebSocket Client"]]
