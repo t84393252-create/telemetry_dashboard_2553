@@ -4,7 +4,7 @@
 
 ```mermaid
 graph TB
-    subgraph "Docker Network: telemetry-network"
+    subgraph "Docker Network - telemetry-network"
         subgraph "Backend Container [:8000]"
             GEN[("📊 Metrics Generator<br/>Simulates 5 services")]
             PROC[["🔍 Processor<br/>• Anomaly Detection<br/>• Aggregation<br/>• Statistics"]]
