@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # Backend service for testing
+  backend-test:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000"  # Different port to avoid conflicts
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TESTING=true
+    volumes:
+      - ./backend:/app
+      - test-sqlite-data:/app/data
+    networks:
+      - test-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/metrics/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+
+  # Test runner service
+  test-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile.tests
+    depends_on:
+      backend-test:
+        condition: service_healthy
+    environment:
+      - TEST_BACKEND_URL=http://backend-test:8000
+      - TEST_WS_URL=ws://backend-test:8000/ws/metrics
+    volumes:
+      - ./:/tests
+      - ./test-results:/test-results
+    networks:
+      - test-network
+    command: >
+      sh -c "
+        echo 'Waiting for backend to be ready...' &&
+        sleep 5 &&
+        echo 'Running validation tests...' &&
+        python3 /tests/validate_system.py &&
+        echo 'Running E2E tests...' &&
+        python3 /tests/e2e_test.py &&
+        echo 'Running performance tests...' &&
+        python3 /tests/performance_test.py
+      "
+
+volumes:
+  test-sqlite-data:
+  test-results:
+
+networks:
+  test-network:
+    driver: bridge

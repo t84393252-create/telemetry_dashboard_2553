@@ -1,0 +1,21 @@
+FROM python:3.11-slim
+
+WORKDIR /tests
+
+# Install test dependencies
+RUN pip install --no-cache-dir \
+    aiohttp \
+    websockets \
+    colorama \
+    pytest \
+    pytest-asyncio
+
+# Copy test files
+COPY validate_system.py .
+COPY e2e_test.py .
+COPY performance_test.py .
+COPY simple_e2e_test.py .
+COPY test_websocket.py .
+
+# Default command runs all tests
+CMD ["python", "-m", "pytest", "-v"]
