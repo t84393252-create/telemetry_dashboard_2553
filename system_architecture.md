@@ -6,17 +6,17 @@
 graph TB
     subgraph "Docker Network - telemetry-network"
         subgraph "Backend Container Port 8000"
-            GEN[("📊 Metrics Generator<br/>Simulates 5 services")]
-            PROC[["🔍 Processor<br/>• Anomaly Detection<br/>• Aggregation<br/>• Statistics"]]
-            API{{"🚀 FastAPI Server<br/>• REST Endpoints<br/>• WebSocket Server"}}
-            STORE[("💾 SQLite Storage<br/>• Metrics DB<br/>• 24hr retention"]]
-            MGR[["📡 Connection Manager<br/>WebSocket Handler"]]
+            GEN["📊 Metrics Generator<br/>Simulates 5 services"]
+            PROC["🔍 Processor<br/>• Anomaly Detection<br/>• Aggregation<br/>• Statistics"]
+            API["🚀 FastAPI Server<br/>• REST Endpoints<br/>• WebSocket Server"]
+            STORE["💾 SQLite Storage<br/>• Metrics DB<br/>• 24hr retention"]
+            MGR["📡 Connection Manager<br/>WebSocket Handler"]
         end
         
         subgraph "Frontend Container Port 3000"
-            VITE[["⚡ Vite Dev Server"]]
-            REACT[["⚛️ React App"]]
-            HOOK[["🔄 useMetrics Hook<br/>WebSocket Client"]]
+            VITE["⚡ Vite Dev Server"]
+            REACT["⚛️ React App"]
+            HOOK["🔄 useMetrics Hook<br/>WebSocket Client"]
             
             subgraph "UI Components"
                 CARDS["📊 StatCards"]
@@ -29,7 +29,7 @@ graph TB
         end
     end
     
-    BROWSER[["🌐 Browser"]]
+    BROWSER["🌐 Browser"]
     
     %% Data Flow
     GEN -.->|"Generate<br/>1/sec"| PROC
